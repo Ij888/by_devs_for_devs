@@ -49,6 +49,25 @@ Vue SPA → Express API → SurrealDB
 
 ---
 
+## Product Screens / Design
+
+### Trello (delivery plan)
+![Trello board](docs/trello/trello-board.png)
+
+### Lo-fi wireframes
+| Home | Auth |
+|---|---|
+| ![Lo-fi Home](docs/mockups/lofi/01-home.png) | ![Lo-fi Auth](docs/mockups/lofi/02-login.png) |
+
+| Dashboard | Collection Detail |
+|---|---|
+| ![Lo-fi Dashboard](docs/mockups/lofi/03-dashboard.png) | ![Lo-fi Collection Detail](docs/mockups/lofi/04-collection-detail.png) |
+
+### Hi-fi mockups
+| Home | Dashboard |
+|---|---|
+| ![Hi-fi Home](docs/mockups/hifi/01-home.png) | ![Hi-fi Dashboard](docs/mockups/hifi/03-dashboard.png) |
+
 ## Why Vue (Minimal Frontend)
 
 The frontend is intentionally lightweight.
