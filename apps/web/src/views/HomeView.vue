@@ -8,7 +8,9 @@
         in one place.
       </p>
       <div class="hero-actions">
-        <a href="/dashboard" class="button button-primary">Go to Dashboard</a>
+        <RouterLink to="/dashboard" class="button button-primary">
+          Go to Dashboard
+        </RouterLink>
         <a href="#features" class="button button-secondary">View Features</a>
       </div>
     </section>

@@ -39,7 +39,8 @@ Frontend:
 - Native Fetch API
 
 Deployment:
-- Railway or Render
+- Railway or Render for the API
+- GitHub Pages for the frontend (`apps/web`)
 
 ---
 
@@ -123,3 +124,15 @@ Public
 
 MVP foundation defined.
 Authentication, CRUD, database integration, and deployment in progress.
+
+---
+
+## GitHub Pages
+
+The repository includes a GitHub Actions workflow that deploys the Vue frontend
+from `apps/web` to GitHub Pages on pushes to `main`.
+
+Notes:
+- GitHub Pages only hosts the static frontend.
+- The Express API must still be deployed separately (for example on Railway or Render).
+- Set `VITE_API_BASE_URL` in the Pages workflow later if you want the frontend to call a live API.
