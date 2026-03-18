@@ -104,8 +104,114 @@ a {
   color: #4b5563;
 }
 
+.dashboard-page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 3rem 1rem 4rem;
+}
+
+.dashboard-panel {
+  background: #ffffff;
+  border: 1px solid #dbe2ea;
+  border-radius: 14px;
+  padding: 2rem;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.dashboard-copy {
+  margin: 0.75rem 0 1.5rem;
+  color: #4b5563;
+}
+
+.application-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  align-items: end;
+}
+
+.field {
+  display: grid;
+  gap: 0.4rem;
+  font-weight: 600;
+}
+
+.field span {
+  font-size: 0.95rem;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 0.75rem 0.85rem;
+  font: inherit;
+  background: #ffffff;
+}
+
+.status-message {
+  margin: 1rem 0 0;
+  color: #475569;
+}
+
+.status-error {
+  color: #b91c1c;
+}
+
+.application-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.application-card {
+  border: 1px solid #dbe2ea;
+  border-radius: 12px;
+  padding: 1rem;
+  background: #f8fafc;
+}
+
+.application-card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.application-card-header h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.application-status {
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.application-role,
+.application-date {
+  margin: 0.45rem 0 0;
+  color: #475569;
+}
+
 @media (max-width: 640px) {
   .hero {
     padding: 1.25rem;
+  }
+
+  .dashboard-panel {
+    padding: 1.25rem;
+  }
+
+  .application-card-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
