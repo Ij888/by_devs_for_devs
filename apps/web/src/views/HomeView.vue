@@ -146,7 +146,7 @@ onMounted(loadHomeData);
 
     <section class="quote-section">
       <div class="section-heading">
-        <p class="eyebrow">Dump Things Recruiters Say</p>
+        <p class="eyebrow">Recruiter Quotes</p>
         <h2>Collected from the digital landfill.</h2>
       </div>
 

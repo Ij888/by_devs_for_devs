@@ -287,7 +287,7 @@ onMounted(loadDashboard);
         <section class="dashboard-panel dashboard-panel-wide">
           <div class="panel-heading">
             <div>
-              <p class="eyebrow">Dump Things Recruiters Say</p>
+              <p class="eyebrow">Recruiter Quotes</p>
               <h2>Archive of avoidable nonsense</h2>
             </div>
           </div>
