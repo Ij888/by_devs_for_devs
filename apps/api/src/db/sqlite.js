@@ -20,6 +20,75 @@ function getCount(tableName) {
   return db.prepare(`SELECT COUNT(*) AS count FROM ${tableName}`).get().count;
 }
 
+function seedRecruiterIncidents() {
+  const seed = db.prepare(`
+    INSERT INTO recruiter_incidents (id, recruiter, offence, penalty, severity, created_at)
+    VALUES (@id, @recruiter, @offence, @penalty, @severity, @createdAt)
+  `);
+
+  seed.run({
+    id: "incident-1",
+    recruiter: "TalentRocket",
+    offence: "Sent a personalised message that still had [FirstName] in it.",
+    penalty: "Muted for 7 days",
+    severity: "High",
+    createdAt: "2026-03-22T09:30:00.000Z"
+  });
+
+  seed.run({
+    id: "incident-2",
+    recruiter: "ScaleOps Hiring",
+    offence: "Listed competitive salary and called that transparency.",
+    penalty: "Salary gate failed",
+    severity: "Critical",
+    createdAt: "2026-03-21T15:00:00.000Z"
+  });
+
+  seed.run({
+    id: "incident-3",
+    recruiter: "CloudNudge",
+    offence: "Wanted senior Kubernetes, Go, Rust, and 24/7 on-call for entry level.",
+    penalty: "Flagged as unserious",
+    severity: "High",
+    createdAt: "2026-03-20T11:15:00.000Z"
+  });
+}
+
+function seedRecruiterQuotes() {
+  const seed = db.prepare(`
+    INSERT INTO recruiter_quotes (id, quote, source, created_at)
+    VALUES (@id, @quote, @source, @createdAt)
+  `);
+
+  seed.run({
+    id: "quote-1",
+    quote: "Do you know Java? I saw you work with JavaScript.",
+    source: "Outbound email",
+    createdAt: "2026-03-22T10:00:00.000Z"
+  });
+
+  seed.run({
+    id: "quote-2",
+    quote: "We move fast, so the take-home is only six unpaid hours.",
+    source: "Intro call",
+    createdAt: "2026-03-21T16:20:00.000Z"
+  });
+
+  seed.run({
+    id: "quote-3",
+    quote: "The salary depends on passion.",
+    source: "LinkedIn DM",
+    createdAt: "2026-03-20T14:10:00.000Z"
+  });
+
+  seed.run({
+    id: "quote-4",
+    quote: "The team uses modern tooling: Excel, WhatsApp, and vibes.",
+    source: "Recruiter follow-up",
+    createdAt: "2026-03-19T12:00:00.000Z"
+  });
+}
+
 export function initialiseSqlite() {
   db.exec(`
     CREATE TABLE IF NOT EXISTS applications (
@@ -75,72 +144,11 @@ export function initialiseSqlite() {
   }
 
   if (getCount("recruiter_incidents") === 0) {
-    const seed = db.prepare(`
-      INSERT INTO recruiter_incidents (id, recruiter, offence, penalty, severity, created_at)
-      VALUES (@id, @recruiter, @offence, @penalty, @severity, @createdAt)
-    `);
-
-    seed.run({
-      id: "incident-1",
-      recruiter: "TalentRocket",
-      offence: "Sent a personalised message that still had [FirstName] in it.",
-      penalty: "Muted for 7 days",
-      severity: "High",
-      createdAt: "2026-03-22T09:30:00.000Z"
-    });
-
-    seed.run({
-      id: "incident-2",
-      recruiter: "ScaleOps Hiring",
-      offence: "Listed competitive salary and called that transparency.",
-      penalty: "Salary gate failed",
-      severity: "Critical",
-      createdAt: "2026-03-21T15:00:00.000Z"
-    });
-
-    seed.run({
-      id: "incident-3",
-      recruiter: "CloudNudge",
-      offence: "Wanted senior Kubernetes, Go, Rust, and 24/7 on-call for entry level.",
-      penalty: "Flagged as unserious",
-      severity: "High",
-      createdAt: "2026-03-20T11:15:00.000Z"
-    });
+    seedRecruiterIncidents();
   }
 
   if (getCount("recruiter_quotes") === 0) {
-    const seed = db.prepare(`
-      INSERT INTO recruiter_quotes (id, quote, source, created_at)
-      VALUES (@id, @quote, @source, @createdAt)
-    `);
-
-    seed.run({
-      id: "quote-1",
-      quote: "Do you know Java? I saw you work with JavaScript.",
-      source: "Outbound email",
-      createdAt: "2026-03-22T10:00:00.000Z"
-    });
-
-    seed.run({
-      id: "quote-2",
-      quote: "We move fast, so the take-home is only six unpaid hours.",
-      source: "Intro call",
-      createdAt: "2026-03-21T16:20:00.000Z"
-    });
-
-    seed.run({
-      id: "quote-3",
-      quote: "The salary depends on passion.",
-      source: "LinkedIn DM",
-      createdAt: "2026-03-20T14:10:00.000Z"
-    });
-
-    seed.run({
-      id: "quote-4",
-      quote: "The team uses modern tooling: Excel, WhatsApp, and vibes.",
-      source: "Recruiter follow-up",
-      createdAt: "2026-03-19T12:00:00.000Z"
-    });
+    seedRecruiterQuotes();
   }
 }
 

@@ -38,9 +38,33 @@ export async function getRecruiterIncidents() {
   return (await parseJsonResponse(response, "Failed to load recruiter incidents")) ?? [];
 }
 
+export async function createRecruiterIncident(incident) {
+  const response = await fetch(`${API_BASE_URL}/recruiter-incidents`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(incident)
+  });
+
+  return parseJsonResponse(response, "Failed to create recruiter incident");
+}
+
 export async function getRecruiterQuotes() {
   const response = await fetch(`${API_BASE_URL}/recruiter-quotes`);
   return (await parseJsonResponse(response, "Failed to load recruiter quotes")) ?? [];
+}
+
+export async function createRecruiterQuote(quote) {
+  const response = await fetch(`${API_BASE_URL}/recruiter-quotes`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(quote)
+  });
+
+  return parseJsonResponse(response, "Failed to create recruiter quote");
 }
 
 export async function getDashboardSummary() {

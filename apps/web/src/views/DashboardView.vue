@@ -2,6 +2,8 @@
 import { onMounted, reactive, ref } from "vue";
 import {
   createApplication,
+  createRecruiterIncident,
+  createRecruiterQuote,
   getApplications,
   getDashboardSummary,
   getRecruiterIncidents,
@@ -14,12 +16,26 @@ const dumpQuotes = ref([]);
 const summary = ref({});
 const loading = ref(true);
 const errorMessage = ref("");
-const submitting = ref(false);
+const applicationSubmitting = ref(false);
+const incidentSubmitting = ref(false);
+const quoteSubmitting = ref(false);
 
-const form = reactive({
+const applicationForm = reactive({
   company: "",
   role: "",
   status: "Applied"
+});
+
+const incidentForm = reactive({
+  recruiter: "",
+  offence: "",
+  penalty: "",
+  severity: "High"
+});
+
+const quoteForm = reactive({
+  quote: "",
+  source: ""
 });
 
 async function loadDashboard() {
@@ -45,30 +61,88 @@ async function loadDashboard() {
   }
 }
 
-async function handleSubmit() {
-  submitting.value = true;
+function refreshSummary(partial) {
+  summary.value = {
+    ...summary.value,
+    ...partial
+  };
+}
+
+async function handleApplicationSubmit() {
+  applicationSubmitting.value = true;
   errorMessage.value = "";
 
   try {
     const created = await createApplication({
-      company: form.company,
-      role: form.role,
-      status: form.status
+      company: applicationForm.company,
+      role: applicationForm.role,
+      status: applicationForm.status
     });
 
     applications.value = [created, ...applications.value];
-    summary.value = {
-      ...summary.value,
+    refreshSummary({
       applicationsCount: applications.value.length,
       latestApplication: created
-    };
-    form.company = "";
-    form.role = "";
-    form.status = "Applied";
+    });
+    applicationForm.company = "";
+    applicationForm.role = "";
+    applicationForm.status = "Applied";
   } catch (error) {
     errorMessage.value = error.message;
   } finally {
-    submitting.value = false;
+    applicationSubmitting.value = false;
+  }
+}
+
+async function handleIncidentSubmit() {
+  incidentSubmitting.value = true;
+  errorMessage.value = "";
+
+  try {
+    const created = await createRecruiterIncident({
+      recruiter: incidentForm.recruiter,
+      offence: incidentForm.offence,
+      penalty: incidentForm.penalty,
+      severity: incidentForm.severity
+    });
+
+    shameFeed.value = [created, ...shameFeed.value];
+    refreshSummary({
+      incidentsCount: shameFeed.value.length,
+      latestIncident: created
+    });
+    incidentForm.recruiter = "";
+    incidentForm.offence = "";
+    incidentForm.penalty = "";
+    incidentForm.severity = "High";
+  } catch (error) {
+    errorMessage.value = error.message;
+  } finally {
+    incidentSubmitting.value = false;
+  }
+}
+
+async function handleQuoteSubmit() {
+  quoteSubmitting.value = true;
+  errorMessage.value = "";
+
+  try {
+    const created = await createRecruiterQuote({
+      quote: quoteForm.quote,
+      source: quoteForm.source
+    });
+
+    dumpQuotes.value = [created, ...dumpQuotes.value];
+    refreshSummary({
+      quotesCount: dumpQuotes.value.length,
+      latestQuote: created
+    });
+    quoteForm.quote = "";
+    quoteForm.source = "";
+  } catch (error) {
+    errorMessage.value = error.message;
+  } finally {
+    quoteSubmitting.value = false;
   }
 }
 
@@ -118,20 +192,20 @@ onMounted(loadDashboard);
             </div>
           </div>
 
-          <form class="application-form" @submit.prevent="handleSubmit">
+          <form class="application-form" @submit.prevent="handleApplicationSubmit">
             <label class="field">
               <span>Company</span>
-              <input v-model.trim="form.company" type="text" required />
+              <input v-model.trim="applicationForm.company" type="text" required />
             </label>
 
             <label class="field">
               <span>Role</span>
-              <input v-model.trim="form.role" type="text" required />
+              <input v-model.trim="applicationForm.role" type="text" required />
             </label>
 
             <label class="field">
               <span>Status</span>
-              <select v-model="form.status">
+              <select v-model="applicationForm.status">
                 <option>Applied</option>
                 <option>Interview</option>
                 <option>Offer</option>
@@ -139,8 +213,8 @@ onMounted(loadDashboard);
               </select>
             </label>
 
-            <button class="button button-primary" type="submit" :disabled="submitting">
-              {{ submitting ? "Saving..." : "Add application" }}
+            <button class="button button-primary" type="submit" :disabled="applicationSubmitting">
+              {{ applicationSubmitting ? "Saving..." : "Add application" }}
             </button>
           </form>
 
@@ -168,6 +242,36 @@ onMounted(loadDashboard);
             </div>
           </div>
 
+          <form class="stacked-form" @submit.prevent="handleIncidentSubmit">
+            <label class="field">
+              <span>Recruiter</span>
+              <input v-model.trim="incidentForm.recruiter" type="text" required />
+            </label>
+
+            <label class="field">
+              <span>Offence</span>
+              <textarea v-model.trim="incidentForm.offence" rows="3" required />
+            </label>
+
+            <label class="field">
+              <span>Penalty</span>
+              <input v-model.trim="incidentForm.penalty" type="text" required />
+            </label>
+
+            <label class="field">
+              <span>Severity</span>
+              <select v-model="incidentForm.severity">
+                <option>Medium</option>
+                <option>High</option>
+                <option>Critical</option>
+              </select>
+            </label>
+
+            <button class="button button-secondary" type="submit" :disabled="incidentSubmitting">
+              {{ incidentSubmitting ? "Saving..." : "Add wall entry" }}
+            </button>
+          </form>
+
           <ul class="shame-feed">
             <li v-for="entry in shameFeed" :key="entry.id" class="shame-feed-item">
               <div class="shame-feed-header">
@@ -187,6 +291,22 @@ onMounted(loadDashboard);
               <h2>Archive of avoidable nonsense</h2>
             </div>
           </div>
+
+          <form class="stacked-form stacked-form-inline" @submit.prevent="handleQuoteSubmit">
+            <label class="field field-grow">
+              <span>Quote</span>
+              <textarea v-model.trim="quoteForm.quote" rows="3" required />
+            </label>
+
+            <label class="field">
+              <span>Source</span>
+              <input v-model.trim="quoteForm.source" type="text" required />
+            </label>
+
+            <button class="button button-secondary" type="submit" :disabled="quoteSubmitting">
+              {{ quoteSubmitting ? "Saving..." : "Add quote" }}
+            </button>
+          </form>
 
           <div class="dump-grid">
             <article v-for="quote in dumpQuotes" :key="quote.id" class="dump-card">

@@ -331,10 +331,25 @@ h3 {
   align-items: end;
 }
 
+.stacked-form {
+  display: grid;
+  gap: 0.9rem;
+  margin-bottom: 1.25rem;
+}
+
+.stacked-form-inline {
+  grid-template-columns: minmax(0, 1.6fr) minmax(180px, 0.7fr) auto;
+  align-items: end;
+}
+
 .field {
   display: grid;
   gap: 0.4rem;
   font-weight: 600;
+}
+
+.field-grow {
+  min-width: 0;
 }
 
 .field span {
@@ -342,7 +357,8 @@ h3 {
 }
 
 .field input,
-.field select {
+.field select,
+.field textarea {
   width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 14px;
@@ -350,9 +366,11 @@ h3 {
   font: inherit;
   background: rgba(255, 255, 255, 0.05);
   color: #f8fafc;
+  resize: vertical;
 }
 
-.field input::placeholder {
+.field input::placeholder,
+.field textarea::placeholder {
   color: #93a9c5;
 }
 
@@ -431,5 +449,11 @@ h3 {
   .application-card-header {
     flex-direction: column;
     align-items: flex-start;
+  }
+}
+
+@media (max-width: 900px) {
+  .stacked-form-inline {
+    grid-template-columns: 1fr;
   }
 }
