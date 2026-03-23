@@ -25,10 +25,17 @@ a {
   color: inherit;
 }
 
+h1,
+h2,
+h3 {
+  color: #ffffff;
+}
+
 .home-page,
 .dashboard-page {
-  max-width: 1180px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
   padding: 3rem 1rem 4rem;
 }
 
@@ -72,6 +79,7 @@ a {
   font-size: clamp(2.4rem, 5vw, 4.6rem);
   line-height: 0.98;
   max-width: 12ch;
+  color: #ffffff;
 }
 
 .hero-copy {
@@ -168,6 +176,7 @@ a {
   border-left: 3px solid #fb923c;
   background: rgba(251, 146, 60, 0.08);
   border-radius: 0 14px 14px 0;
+  color: #f8fafc;
 }
 
 .button {
@@ -214,6 +223,7 @@ a {
 .feature-card h2 {
   margin: 0 0 0.5rem;
   font-size: 1.15rem;
+  color: #ffffff;
 }
 
 .section-heading {
@@ -224,6 +234,7 @@ a {
 .panel-heading h2 {
   margin: 0;
   font-size: clamp(1.35rem, 3vw, 2rem);
+  color: #ffffff;
 }
 
 .shame-section,
@@ -265,6 +276,7 @@ a {
 .application-card-header h3 {
   margin: 0.75rem 0 0.45rem;
   font-size: 1.05rem;
+  color: #ffffff;
 }
 
 .shame-card strong {
