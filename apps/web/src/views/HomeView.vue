@@ -1,29 +1,6 @@
 <script setup>
-const wallEntries = [
-  {
-    recruiter: "TalentRocket",
-    offence: "Sent a 'personalised' message that still had [FirstName] in it.",
-    penalty: "Muted for 7 days"
-  },
-  {
-    recruiter: "ScaleOps Hiring",
-    offence: "Listed 'competitive salary' and called that transparency.",
-    penalty: "Salary gate failed"
-  },
-  {
-    recruiter: "CloudNudge",
-    offence: "Wanted senior Kubernetes, Go, Rust, and 24/7 on-call for 'entry level'.",
-    penalty: "Flagged as unserious"
-  }
-];
-
-const recruiterQuotes = [
-  "Do you know Java? I saw you work with JavaScript.",
-  "We move fast, so the take-home is only six unpaid hours.",
-  "The salary depends on passion.",
-  "Can you send your CV in PDF, Word, and as a Loom explaining your aura?",
-  "The team uses modern tooling: Excel, WhatsApp, and vibes."
-];
+import { onMounted, ref } from "vue";
+import { getDashboardSummary, getRecruiterIncidents, getRecruiterQuotes } from "../services/api.js";
 
 const manifesto = [
   "No ghosting disguised as process.",
@@ -31,6 +8,35 @@ const manifesto = [
   "No salary mystery boxes.",
   "No pretending a copy-paste message is outreach."
 ];
+
+const wallEntries = ref([]);
+const recruiterQuotes = ref([]);
+const summary = ref({});
+const loading = ref(true);
+const errorMessage = ref("");
+
+async function loadHomeData() {
+  loading.value = true;
+  errorMessage.value = "";
+
+  try {
+    const [summaryData, incidents, quotes] = await Promise.all([
+      getDashboardSummary(),
+      getRecruiterIncidents(),
+      getRecruiterQuotes()
+    ]);
+
+    summary.value = summaryData;
+    wallEntries.value = incidents.slice(0, 3);
+    recruiterQuotes.value = quotes.slice(0, 5);
+  } catch (error) {
+    errorMessage.value = error.message;
+  } finally {
+    loading.value = false;
+  }
+}
+
+onMounted(loadHomeData);
 </script>
 
 <template>
@@ -58,22 +64,43 @@ const manifesto = [
 
       <aside class="hero-signal-board" aria-label="Live platform signals">
         <div class="signal-card">
-          <span class="signal-label">Ghosting Rate</span>
-          <strong>Down 38%</strong>
-          <p>Timeout rules and structured submissions are doing their job.</p>
+          <span class="signal-label">Applications tracked</span>
+          <strong>{{ summary.applicationsCount ?? 0 }}</strong>
+          <p>
+            {{
+              summary.latestApplication
+                ? `${summary.latestApplication.company} is the latest pipeline entry.`
+                : "Waiting for the first application to land."
+            }}
+          </p>
         </div>
         <div class="signal-card">
-          <span class="signal-label">Bad Outreach Blocked</span>
-          <strong>214 this month</strong>
-          <p>Generic recruiter spam now dies before it reaches a developer inbox.</p>
+          <span class="signal-label">Wall entries</span>
+          <strong>{{ summary.incidentsCount ?? 0 }}</strong>
+          <p>
+            {{
+              summary.latestIncident
+                ? `${summary.latestIncident.recruiter} was the latest recruiter to get flagged.`
+                : "No recruiter incidents recorded yet."
+            }}
+          </p>
         </div>
         <div class="signal-card signal-card-accent">
-          <span class="signal-label">Current Mode</span>
-          <strong>Shutdown Available</strong>
-          <p>When developers are offline, the message button disappears. As it should.</p>
+          <span class="signal-label">Dump archive</span>
+          <strong>{{ summary.quotesCount ?? 0 }}</strong>
+          <p>
+            {{
+              summary.latestQuote
+                ? `${summary.latestQuote.source} supplied the latest nonsense.`
+                : "The archive is empty. Suspicious."
+            }}
+          </p>
         </div>
       </aside>
     </section>
+
+    <p v-if="errorMessage" class="status-message status-error">{{ errorMessage }}</p>
+    <p v-else-if="loading" class="status-message">Loading wall of shame data...</p>
 
     <section class="feature-grid" aria-label="Platform features">
       <article class="feature-card feature-card-strong">
@@ -108,8 +135,8 @@ const manifesto = [
       </div>
 
       <div class="shame-grid">
-        <article v-for="entry in wallEntries" :key="entry.recruiter" class="shame-card">
-          <span class="shame-badge">Flagged</span>
+        <article v-for="entry in wallEntries" :key="entry.id" class="shame-card">
+          <span class="shame-badge">{{ entry.severity }}</span>
           <h3>{{ entry.recruiter }}</h3>
           <p>{{ entry.offence }}</p>
           <strong>{{ entry.penalty }}</strong>
@@ -124,8 +151,8 @@ const manifesto = [
       </div>
 
       <div class="quote-list" aria-label="Recruiter quote list">
-        <blockquote v-for="quote in recruiterQuotes" :key="quote" class="quote-card">
-          "{{ quote }}"
+        <blockquote v-for="quote in recruiterQuotes" :key="quote.id" class="quote-card">
+          "{{ quote.quote }}"
         </blockquote>
       </div>
     </section>

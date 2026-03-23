@@ -6,15 +6,19 @@ export async function getHealth() {
   return response.json();
 }
 
-export async function getApplications() {
-  const response = await fetch(`${API_BASE_URL}/applications`);
-
+async function parseJsonResponse(response, fallbackMessage) {
   if (!response.ok) {
-    throw new Error("Failed to load applications");
+    const payload = await response.json().catch(() => ({}));
+    throw new Error(payload.error || fallbackMessage);
   }
 
   const payload = await response.json();
-  return payload.data ?? [];
+  return payload.data;
+}
+
+export async function getApplications() {
+  const response = await fetch(`${API_BASE_URL}/applications`);
+  return (await parseJsonResponse(response, "Failed to load applications")) ?? [];
 }
 
 export async function createApplication(application) {
@@ -26,11 +30,20 @@ export async function createApplication(application) {
     body: JSON.stringify(application)
   });
 
-  if (!response.ok) {
-    const payload = await response.json().catch(() => ({}));
-    throw new Error(payload.error || "Failed to create application");
-  }
+  return parseJsonResponse(response, "Failed to create application");
+}
 
-  const payload = await response.json();
-  return payload.data;
+export async function getRecruiterIncidents() {
+  const response = await fetch(`${API_BASE_URL}/recruiter-incidents`);
+  return (await parseJsonResponse(response, "Failed to load recruiter incidents")) ?? [];
+}
+
+export async function getRecruiterQuotes() {
+  const response = await fetch(`${API_BASE_URL}/recruiter-quotes`);
+  return (await parseJsonResponse(response, "Failed to load recruiter quotes")) ?? [];
+}
+
+export async function getDashboardSummary() {
+  const response = await fetch(`${API_BASE_URL}/dashboard/summary`);
+  return (await parseJsonResponse(response, "Failed to load dashboard summary")) ?? {};
 }

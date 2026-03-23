@@ -1,33 +1,17 @@
 <script setup>
 import { onMounted, reactive, ref } from "vue";
-import { createApplication, getApplications } from "../services/api.js";
-
-const shameFeed = [
-  {
-    name: "Nebula Talent",
-    issue: "Asked for a senior engineer and offered 'great exposure' instead of a range.",
-    severity: "Critical"
-  },
-  {
-    name: "Quantum Recruit",
-    issue: "Sent the same Rust role to three frontend developers in one hour.",
-    severity: "High"
-  },
-  {
-    name: "StackSource",
-    issue: "Introduced a take-home after claiming the process was 'just one chat'.",
-    severity: "Medium"
-  }
-];
-
-const dumpQuotes = [
-  "We love your background in React, would you relocate tomorrow for a PHP support role?",
-  "The client wants a startup mindset, enterprise reliability, and intern-level budget.",
-  "There is no salary band yet, but the mission is priceless.",
-  "Could you just rewrite your CV to sound more senior without changing your experience?"
-];
+import {
+  createApplication,
+  getApplications,
+  getDashboardSummary,
+  getRecruiterIncidents,
+  getRecruiterQuotes
+} from "../services/api.js";
 
 const applications = ref([]);
+const shameFeed = ref([]);
+const dumpQuotes = ref([]);
+const summary = ref({});
 const loading = ref(true);
 const errorMessage = ref("");
 const submitting = ref(false);
@@ -38,12 +22,22 @@ const form = reactive({
   status: "Applied"
 });
 
-async function loadApplications() {
+async function loadDashboard() {
   loading.value = true;
   errorMessage.value = "";
 
   try {
-    applications.value = await getApplications();
+    const [applicationData, incidentData, quoteData, summaryData] = await Promise.all([
+      getApplications(),
+      getRecruiterIncidents(),
+      getRecruiterQuotes(),
+      getDashboardSummary()
+    ]);
+
+    applications.value = applicationData;
+    shameFeed.value = incidentData;
+    dumpQuotes.value = quoteData;
+    summary.value = summaryData;
   } catch (error) {
     errorMessage.value = error.message;
   } finally {
@@ -63,6 +57,11 @@ async function handleSubmit() {
     });
 
     applications.value = [created, ...applications.value];
+    summary.value = {
+      ...summary.value,
+      applicationsCount: applications.value.length,
+      latestApplication: created
+    };
     form.company = "";
     form.role = "";
     form.status = "Applied";
@@ -73,7 +72,7 @@ async function handleSubmit() {
   }
 }
 
-onMounted(loadApplications);
+onMounted(loadDashboard);
 </script>
 
 <template>
@@ -87,23 +86,28 @@ onMounted(loadApplications);
             Track applications, monitor recruiter behaviour, and keep a running archive of
             the nonsense that proves this platform needs to exist.
           </p>
+          <p v-if="summary.latestQuote" class="dashboard-copy">
+            Latest quote source: {{ summary.latestQuote.source }}
+          </p>
         </div>
 
         <div class="dashboard-metrics" aria-label="Platform metrics">
           <article class="metric-card">
             <span>Open applications</span>
-            <strong>{{ applications.length }}</strong>
+            <strong>{{ summary.applicationsCount ?? applications.length }}</strong>
           </article>
           <article class="metric-card">
             <span>Wall entries</span>
-            <strong>{{ shameFeed.length }}</strong>
+            <strong>{{ summary.incidentsCount ?? shameFeed.length }}</strong>
           </article>
           <article class="metric-card metric-card-alert">
             <span>Recruiter nonsense</span>
-            <strong>{{ dumpQuotes.length }}</strong>
+            <strong>{{ summary.quotesCount ?? dumpQuotes.length }}</strong>
           </article>
         </div>
       </header>
+
+      <p v-if="errorMessage" class="status-message status-error">{{ errorMessage }}</p>
 
       <div class="dashboard-grid">
         <section class="dashboard-panel dashboard-panel-wide">
@@ -140,8 +144,7 @@ onMounted(loadApplications);
             </button>
           </form>
 
-          <p v-if="errorMessage" class="status-message status-error">{{ errorMessage }}</p>
-          <p v-else-if="loading" class="status-message">Loading applications...</p>
+          <p v-if="loading" class="status-message">Loading applications...</p>
 
           <ul v-else class="application-list">
             <li v-for="application in applications" :key="application.id" class="application-card">
@@ -166,12 +169,13 @@ onMounted(loadApplications);
           </div>
 
           <ul class="shame-feed">
-            <li v-for="entry in shameFeed" :key="entry.name" class="shame-feed-item">
+            <li v-for="entry in shameFeed" :key="entry.id" class="shame-feed-item">
               <div class="shame-feed-header">
-                <h3>{{ entry.name }}</h3>
+                <h3>{{ entry.recruiter }}</h3>
                 <span class="severity-pill">{{ entry.severity }}</span>
               </div>
-              <p>{{ entry.issue }}</p>
+              <p>{{ entry.offence }}</p>
+              <p class="application-date">{{ entry.penalty }}</p>
             </li>
           </ul>
         </section>
@@ -185,8 +189,9 @@ onMounted(loadApplications);
           </div>
 
           <div class="dump-grid">
-            <article v-for="quote in dumpQuotes" :key="quote" class="dump-card">
-              <p>"{{ quote }}"</p>
+            <article v-for="quote in dumpQuotes" :key="quote.id" class="dump-card">
+              <p>"{{ quote.quote }}"</p>
+              <p class="application-date">{{ quote.source }}</p>
             </article>
           </div>
         </section>

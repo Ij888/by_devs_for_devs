@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { insertApplication, listApplications } from "../../db/sqlite.js";
+import { createApplicationRecord, listApplications } from "../../db/sqlite.js";
 
 export const applicationsRouter = Router();
 
@@ -15,14 +15,10 @@ applicationsRouter.post("/", (req, res) => {
     return;
   }
 
-  const application = {
-    id: `app-${Date.now()}`,
+  const created = createApplicationRecord({
     company: String(company).trim(),
     role: String(role).trim(),
-    status: String(status).trim(),
-    createdAt: new Date().toISOString()
-  };
-
-  const created = insertApplication(application);
+    status: String(status).trim()
+  });
   res.status(201).json({ data: created });
 });
