@@ -125,7 +125,7 @@ const manifesto = [
 
       <div class="quote-list" aria-label="Recruiter quote list">
         <blockquote v-for="quote in recruiterQuotes" :key="quote" class="quote-card">
-          “{{ quote }}”
+          "{{ quote }}"
         </blockquote>
       </div>
     </section>

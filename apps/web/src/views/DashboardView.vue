@@ -186,7 +186,7 @@ onMounted(loadApplications);
 
           <div class="dump-grid">
             <article v-for="quote in dumpQuotes" :key="quote" class="dump-card">
-              <p>“{{ quote }}”</p>
+              <p>"{{ quote }}"</p>
             </article>
           </div>
         </section>
