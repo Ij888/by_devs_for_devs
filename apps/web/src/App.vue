@@ -5,7 +5,7 @@
         <span class="brand-mark">B</span>
         <span class="brand-copy">
           <strong>byDevsforDevs</strong>
-          <small>Recruiter filtering for people who can read stack traces</small>
+          <small>Developer-first hiring infrastructure with standards.</small>
         </span>
       </RouterLink>
 
@@ -22,14 +22,14 @@
       <div>
         <p class="site-footer-title">byDevsforDevs</p>
         <p class="site-footer-copy">
-          Built for developers who are tired of vague outreach, missing salary bands, and
-          process theatre.
+          Built for developers who want clear salary ranges, accountable outreach, and less
+          hiring theatre.
         </p>
       </div>
 
       <div class="site-footer-meta">
         <span>Proof of work over keyword theatre.</span>
-        <span>No ghosting. No fluff. No mystery boxes.</span>
+        <span>Clear terms. No ghosting. No mystery boxes.</span>
       </div>
     </footer>
   </div>
