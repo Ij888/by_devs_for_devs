@@ -129,7 +129,7 @@ h3 {
 }
 
 .home-hero {
-  grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.8fr);
+  grid-template-columns: minmax(0, 1.8fr) minmax(320px, 0.75fr);
   align-items: stretch;
 }
 
@@ -161,7 +161,6 @@ h3 {
   margin: 0;
   font-size: clamp(2.4rem, 5vw, 4.6rem);
   line-height: 0.98;
-  max-width: 12ch;
   color: #ffffff;
 }
 
