@@ -468,6 +468,11 @@ h3 {
   resize: vertical;
 }
 
+.field select {
+  background: linear-gradient(180deg, rgba(251, 146, 60, 0.16), rgba(255, 255, 255, 0.06));
+  border-color: rgba(251, 146, 60, 0.34);
+}
+
 .field input::placeholder,
 .field textarea::placeholder {
   color: #93a9c5;

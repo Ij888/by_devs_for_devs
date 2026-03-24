@@ -3,10 +3,10 @@ import { onMounted, ref } from "vue";
 import { getDashboardSummary, getRecruiterIncidents, getRecruiterQuotes } from "../services/api.js";
 
 const manifesto = [
-  "No ghosting disguised as process.",
-  "No recruiter access without specifics.",
-  "No salary mystery boxes.",
-  "No pretending a copy-paste message is outreach."
+  "Built for frontend, backend, and full-stack engineers.",
+  "Open to contractors, self-taught developers, and nontraditional builders.",
+  "Shipped work matters more than keyword theatre.",
+  "Recruiters only get through with specifics."
 ];
 
 const wallEntries = ref([]);
@@ -44,16 +44,17 @@ onMounted(loadHomeData);
     <section class="home-hero">
       <div class="hero-copy-block">
         <p class="eyebrow">byDevsforDevs</p>
-        <h1>Recruiting infrastructure for developers with standards.</h1>
+        <h1>Hiring infrastructure for engineers and builders with real shipped work.</h1>
         <p class="hero-copy">
-          A job platform that treats proof of work as proof of work. Developers set the
-          terms. Recruiters submit details or get filtered out.
+          Built for frontend, backend, and full-stack engineers, plus contractors,
+          self-taught developers, and technical builders who want clear terms and credible
+          outreach.
         </p>
 
         <div class="hero-ribbon" aria-label="Hero highlights">
-          <span>Reverse interview gate</span>
-          <span>Wall of shame logging</span>
-          <span>Recruiter quote archive</span>
+          <span>For engineers with shipped work</span>
+          <span>For contractors and nontraditional devs</span>
+          <span>For people who want clear technical roles</span>
         </div>
 
         <div class="hero-actions">
@@ -112,8 +113,8 @@ onMounted(loadHomeData);
       <article class="feature-card feature-card-strong">
         <h2>Reverse Interview</h2>
         <p>
-          Recruiters apply to talk to the developer. Salary, stack, process, and intent are
-          required up front.
+          Recruiters apply to talk to experienced engineers and builders. Salary, stack,
+          process, and intent are required up front.
         </p>
       </article>
 
@@ -121,15 +122,15 @@ onMounted(loadHomeData);
         <h2>Proof of Skill</h2>
         <p>
           Profiles are built around shipped work, active repos, and technical signals instead
-          of keyword theatre.
+          of pedigree theatre.
         </p>
       </article>
 
       <article class="feature-card">
         <h2>Bullshit Filter</h2>
         <p>
-          Vague salary, absurd requirements, and recruiter nonsense get flagged before they
-          waste anyone's time.
+          Vague salary, weak role definitions, and low-effort recruiter outreach get flagged
+          before they waste an engineer's time.
         </p>
       </article>
     </section>
@@ -137,7 +138,7 @@ onMounted(loadHomeData);
     <section id="wall" class="shame-section">
       <div class="section-heading">
         <p class="eyebrow">Recruiter Wall Of Shame</p>
-        <h2>Public reminders that low-effort outreach has a cost.</h2>
+        <h2>Public reminders that low-signal outreach has a cost.</h2>
       </div>
 
       <div class="shame-grid">
@@ -153,7 +154,7 @@ onMounted(loadHomeData);
     <section class="quote-section">
       <div class="section-heading">
         <p class="eyebrow">Recruiter Quotes</p>
-        <h2>Collected from the digital landfill.</h2>
+        <h2>Collected from conversations engineers should not have had to endure.</h2>
       </div>
 
       <div class="quote-list" aria-label="Recruiter quote list">

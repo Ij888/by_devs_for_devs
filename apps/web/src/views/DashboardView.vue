@@ -155,10 +155,10 @@ onMounted(loadDashboard);
       <header class="dashboard-hero">
         <div>
           <p class="eyebrow">Control Room</p>
-          <h1>Developer-first hiring dashboard</h1>
+          <h1>Hiring control room for engineers and technical builders</h1>
           <p class="dashboard-copy">
-            Track applications, monitor recruiter behaviour, and keep a running archive of
-            the nonsense that proves this platform needs to exist.
+            Track credible opportunities, monitor recruiter behaviour, and keep a record of
+            the outreach that wastes experienced developers' time.
           </p>
           <p v-if="summary.latestQuote" class="dashboard-copy">
             Latest quote source: {{ summary.latestQuote.source }}
@@ -188,7 +188,7 @@ onMounted(loadDashboard);
           <div class="panel-heading">
             <div>
               <p class="eyebrow">Applications</p>
-              <h2>Pipeline tracker</h2>
+              <h2>Opportunity pipeline</h2>
             </div>
           </div>
 
@@ -238,7 +238,7 @@ onMounted(loadDashboard);
           <div class="panel-heading">
             <div>
               <p class="eyebrow">Wall Of Shame</p>
-              <h2>Flagged recruiters</h2>
+              <h2>Flagged outreach</h2>
             </div>
           </div>
 
@@ -288,7 +288,7 @@ onMounted(loadDashboard);
           <div class="panel-heading">
             <div>
               <p class="eyebrow">Recruiter Quotes</p>
-              <h2>Archive of avoidable nonsense</h2>
+              <h2>Archive of low-signal recruiter lines</h2>
             </div>
           </div>
 

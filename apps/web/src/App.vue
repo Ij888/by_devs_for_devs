@@ -5,7 +5,7 @@
         <span class="brand-mark">B</span>
         <span class="brand-copy">
           <strong>byDevsforDevs</strong>
-          <small>Developer-first hiring infrastructure with standards.</small>
+          <small>For software engineers, contractors, and builders with shipped work.</small>
         </span>
       </RouterLink>
 
@@ -22,14 +22,14 @@
       <div>
         <p class="site-footer-title">byDevsforDevs</p>
         <p class="site-footer-copy">
-          Built for developers who want clear salary ranges, accountable outreach, and less
-          hiring theatre.
+          Built for frontend, backend, and full-stack engineers who want clearer roles,
+          better outreach, and less hiring theatre.
         </p>
       </div>
 
       <div class="site-footer-meta">
-        <span>Proof of work over keyword theatre.</span>
-        <span>Clear terms. No ghosting. No mystery boxes.</span>
+        <span>For contractors, self-taught devs, and builders with real shipped work.</span>
+        <span>Clear terms. Credible roles. No ghosting. No mystery boxes.</span>
       </div>
     </footer>
   </div>
