@@ -50,6 +50,12 @@ onMounted(loadHomeData);
           terms. Recruiters submit details or get filtered out.
         </p>
 
+        <div class="hero-ribbon" aria-label="Hero highlights">
+          <span>Reverse interview gate</span>
+          <span>Wall of shame logging</span>
+          <span>Recruiter quote archive</span>
+        </div>
+
         <div class="hero-actions">
           <RouterLink to="/dashboard" class="button button-primary">
             Open Dashboard
@@ -86,7 +92,7 @@ onMounted(loadHomeData);
           </p>
         </div>
         <div class="signal-card signal-card-accent">
-          <span class="signal-label">Dump archive</span>
+          <span class="signal-label">Quote archive</span>
           <strong>{{ summary.quotesCount ?? 0 }}</strong>
           <p>
             {{
