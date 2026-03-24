@@ -23,6 +23,7 @@ jobs:
         working-directory: apps/web
     env:
       VITE_BASE_PATH: /${{ github.event.repository.name }}/
+      VITE_API_BASE_URL: https://bydevsfordevs-production.up.railway.app
     steps:
       - name: Checkout
         uses: actions/checkout@v4
